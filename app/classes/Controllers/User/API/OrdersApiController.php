@@ -34,6 +34,7 @@ class OrdersApiController extends UserController
         $response = new Response();
 
         $id = $_POST['id'] ?? null;
+        $user = App::$session->getUser();
 
         if ($id === null || $id == 'undefined') {
             $response->appendError('ApiController could not create, since ID is not provided! Check JS!');
@@ -45,7 +46,8 @@ class OrdersApiController extends UserController
                 'pizza_id' => $id,
                 'status' => 'active',
                 'timestamp' => time(),
-                'email' => $_SESSION['email']]);
+                'email' => $user['email']
+            ]);
         }
 
         // Returns json-encoded response

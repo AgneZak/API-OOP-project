@@ -12,7 +12,6 @@ class OrderTable extends Table
         $rows = App::$db->getRowsWhere('orders');
 
         foreach ($rows as $id => &$row) {
-            $user = App::$db->getRowsWhere('users', ['email' => $row['email']]);
             $pizza = App::$db->getRowById('pizzas', $row['pizza_id']);
 
             $timeStamp = date('Y-m-d H:i:s', $row['timestamp']);
