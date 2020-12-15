@@ -25,3 +25,5 @@ Router::add('api_pizza_create', '/api/pizza/create', \App\Controllers\Admin\API\
 Router::add('api_pizza_edit', '/api/pizza/edit', \App\Controllers\Admin\API\PizzaApiController::class, 'edit');
 Router::add('api_pizza_update', '/api/pizza/update', \App\Controllers\Admin\API\PizzaApiController::class, 'update');
 Router::add('api_pizza_delete', '/api/pizza/delete', \App\Controllers\Admin\API\PizzaApiController::class, 'delete');
+
+Router::add('api_order_create', '/api/order/create', \App\Controllers\User\API\OrdersApiController::class, 'create');

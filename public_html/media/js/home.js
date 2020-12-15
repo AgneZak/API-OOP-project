@@ -5,7 +5,8 @@ const endpoints = {
     create: 'api/pizza/create',
     edit: 'api/pizza/edit',
     update: 'api/pizza/update',
-    delete: 'api/pizza/delete'
+    delete: 'api/pizza/delete',
+    createOrder: 'api/order/create'
 };
 
 /**
@@ -70,13 +71,15 @@ const forms = {
         },
         getElement: function () {
             return document.getElementById(selectors.forms.create);
-        },
+        }
+        ,
         onSubmitListener: function (e) {
             e.preventDefault();
             let formData = new FormData(e.target);
             formData.append('action', 'create');
             api(endpoints.create, formData, forms.create.success, forms.create.fail);
-        },
+        }
+        ,
         success: function (data) {
             const element = forms.create.getElement();
 
@@ -84,7 +87,8 @@ const forms = {
             forms.ui.errors.hide(element);
             forms.ui.clear(element);
             forms.ui.flash.class(element, 'success');
-        },
+        }
+        ,
         fail: function (errors) {
             forms.ui.errors.show(forms.create.getElement(), errors);
         }
@@ -103,11 +107,13 @@ const forms = {
             }
 
             return false;
-        },
+        }
+        ,
         elements: {
             form: function () {
                 return document.getElementById(selectors.forms.update);
-            },
+            }
+            ,
             modal: function () {
                 let modal = document.getElementById(selectors.modal);
 
@@ -117,7 +123,8 @@ const forms = {
 
                 return modal;
             }
-        },
+        }
+        ,
         onSubmitListener: function (e) {
             e.preventDefault();
             let formData = new FormData(e.target);
@@ -126,27 +133,34 @@ const forms = {
             formData.append('action', 'update');
 
             api(endpoints.update, formData, forms.update.success, forms.update.fail);
-        },
+        }
+        ,
         success: function (data) {
             grid.item.update(data);
             forms.update.hide();
-        },
+        }
+        ,
         fail: function (errors) {
             forms.ui.errors.show(forms.update.elements.form(), errors);
-        },
+        }
+        ,
         fill: function (data) {
             forms.ui.fill(forms.update.elements.form(), data);
-        },
+        }
+        ,
         onCloseListener: function (e) {
             forms.update.hide();
-        },
+        }
+        ,
         show: function () {
             this.elements.modal().style.display = 'block';
-        },
+        }
+        ,
         hide: function () {
             this.elements.modal().style.display = 'none';
         }
-    },
+    }
+    ,
     /**
      * Common/Universal Form UI Functions
      */
@@ -156,7 +170,8 @@ const forms = {
             // since we're calling init() for
             // all elements withing forms object
             return true;
-        },
+        }
+        ,
         /**
          * Fills form fields with data
          * Each data index corelates with input name attribute
@@ -178,66 +193,75 @@ const forms = {
                     }
                 }
             });
-        },
+        }
+        ,
         clear: function (form) {
             let fields = form.querySelectorAll('[name]')
             fields.forEach(field => {
                 field.value = '';
             });
-        },
+        }
+        ,
         flash: {
-            class: function (element, class_name) {
-                const prev = element.className;
+            class
 
-                element.className += class_name;
-                setTimeout(function () {
-                    element.className = prev;
-                }, 1000);
+:
+
+function (element, class_name) {
+    const prev = element.className;
+
+    element.className += class_name;
+    setTimeout(function () {
+        element.className = prev;
+    }, 1000);
+}
+}
+,
+/**
+ * Form-error related functionality
+ */
+errors: {
+    /**
+     * Shows errors in form
+     * Each error index correlates with input name attribute
+     *
+     * @param {Element} form
+     * @param {Object} errors
+     */
+    show: function (form, errors) {
+        this.hide(form);
+
+        console.log('Form errors received', errors);
+
+        Object.keys(errors).forEach(function (error_id) {
+            const field = form.querySelector('input[name="' + error_id + '"]');
+            if (field) {
+                const span = document.createElement("span");
+                span.className = 'field-error';
+                span.innerHTML = errors[error_id];
+                field.parentNode.append(span);
+
+                console.log('Form error in field: ' + error_id + ':' + errors[error_id]);
             }
-        },
-        /**
-         * Form-error related functionality
-         */
-        errors: {
-            /**
-             * Shows errors in form
-             * Each error index correlates with input name attribute
-             *
-             * @param {Element} form
-             * @param {Object} errors
-             */
-            show: function (form, errors) {
-                this.hide(form);
-
-                console.log('Form errors received', errors);
-
-                Object.keys(errors).forEach(function (error_id) {
-                    const field = form.querySelector('input[name="' + error_id + '"]');
-                    if (field) {
-                        const span = document.createElement("span");
-                        span.className = 'field-error';
-                        span.innerHTML = errors[error_id];
-                        field.parentNode.append(span);
-
-                        console.log('Form error in field: ' + error_id + ':' + errors[error_id]);
-                    }
-                });
-            },
-            /**
-             * Hides (destroys) all errors in form
-             * @param {type} form
-             */
-            hide: function (form) {
-                const errors = form.querySelectorAll('.field-error');
-                if (errors) {
-                    errors.forEach(node => {
-                        node.remove();
-                    });
-                }
-            }
+        });
+    }
+,
+    /**
+     * Hides (destroys) all errors in form
+     * @param {type} form
+     */
+    hide: function (form) {
+        const errors = form.querySelectorAll('.field-error');
+        if (errors) {
+            errors.forEach(node => {
+                node.remove();
+            });
         }
     }
-};
+}
+}
+}
+;
 
 /**
  * Table-related functionality
@@ -414,6 +438,36 @@ const grid = {
             success: function (api_data) {
                 forms.update.show();
                 forms.update.fill(api_data);
+            },
+            fail: function (errors) {
+                alert(errors[0]);
+            }
+        },
+        createOrder: {
+            init: function () {
+                if (grid.getElement()) {
+                    grid.getElement().addEventListener('click', this.onClickListener);
+                    return true;
+                }
+
+                return false;
+            },
+            onClickListener: function (e) {
+                // Listener is set on whole grid, so we listen for which class button
+                // has been pressed
+                if (e.target.className === 'order') {
+                    let formData = new FormData();
+
+                    // Find container of the button, which has ID
+                    let item = e.target.closest('.data-item');
+                    console.log('Order button clicked on', item);
+
+                    formData.append('id', item.getAttribute('data-id'));
+                    api(endpoints.createOrder, formData, grid.buttons.createOrder.success, grid.buttons.createOrder.fail);
+                }
+            },
+            success: function (data) {
+                alert('Created order');
             },
             fail: function (errors) {
                 alert(errors[0]);

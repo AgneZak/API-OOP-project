@@ -4,34 +4,13 @@
 namespace App\Views\Forms\Admin\Order;
 
 
-use Core\Views\Form;
-
-class OrderCreateForm extends Form
+class OrderCreateForm extends OrderBaseForm
 {
-    public function __construct($value = null)
-    {
-        parent::__construct([
-            'attr' => [
-                'method' => 'POST'
-            ],
-            'fields' => [
-                'row_id' => [
-                    'type' => 'hidden',
-                    'value' => 'ORDER'
-                ],
-                'name' => [
-                    'type' => 'hidden',
-                    'value' => $value
-                ],
-            ],
-            'buttons' => [
-                'submit' => [
-                    'title' => 'Order',
-                    'type' => 'submit',
-                ],
-            ]
-        ]);
+    public function __construct() {
+        parent::__construct();
+
+        $this->data['buttons']['order'] = [
+            'title' => 'Order',
+        ];
     }
 }
-
-

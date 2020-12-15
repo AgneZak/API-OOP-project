@@ -12,7 +12,7 @@ class OrderStatusForm extends Form
     {
         parent::__construct([
             'fields' => [
-                'row_id' => [
+                'id' => [
                     'type' => 'hidden',
                     'value' => $id
                 ],
