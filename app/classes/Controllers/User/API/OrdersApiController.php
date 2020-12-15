@@ -41,15 +41,14 @@ class OrdersApiController extends UserController
             $response->setData([
                 'id' => $id
             ]);
-            $row = App::$db->getRowById('pizzas', $id);
-            unset($row['image'], $row['price']);
-            App::$db->insertRow('orders', $row + ['status' => 'active', 'timestamp' => time(),
-                    'email' => $_SESSION['email']]);
+            App::$db->insertRow('orders', [
+                'pizza_id' => $id,
+                'status' => 'active',
+                'timestamp' => time(),
+                'email' => $_SESSION['email']]);
         }
 
         // Returns json-encoded response
         return $response->toJson();
-
-
     }
 }
