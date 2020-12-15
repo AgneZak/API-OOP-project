@@ -7,27 +7,8 @@ use Core\Views\Table;
 
 class OrderTable extends Table
 {
-    public function __construct()
+    public function __construct($orders = null)
     {
-        $rows = App::$db->getRowsWhere('orders');
-
-        foreach ($rows as $id => &$row) {
-            $pizza = App::$db->getRowById('pizzas', $row['pizza_id']);
-
-            $timeStamp = date('Y-m-d H:i:s', $row['timestamp']);
-            $difference = abs(strtotime("now") - strtotime($timeStamp));
-            $days = floor($difference / (3600 * 24));
-            $hours = floor($difference / 3600);
-            $minutes = floor(($difference - ($hours * 3600)) / 60);
-            $result = "{$days}d {$hours}:{$minutes} H";
-
-            $row = [
-                'id' => $id,
-                'status' => $row['status'],
-                'name' => $pizza['name'],
-                'timestamp' => $result
-            ];
-        }
 
         parent::__construct([
             'headers' => [
@@ -36,7 +17,7 @@ class OrderTable extends Table
                 'Pizza name',
                 'Time Ago'
             ],
-            'rows' => $rows
+            'rows' => $orders
         ]);
     }
 }

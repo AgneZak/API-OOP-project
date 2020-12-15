@@ -63,7 +63,7 @@ class HomeController
                 ]))->render()
             ];
         } else {
-            $heading = 'Prisijunkite';
+            $heading = 'Jus neprisijunges';
             $links = [
                 'login' => (new Link([
                     'url' => App::$router::getUrl('login'),
