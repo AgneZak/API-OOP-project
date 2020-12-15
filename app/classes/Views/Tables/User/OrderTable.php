@@ -7,9 +7,8 @@ use Core\Views\Table;
 
 class OrderTable extends Table
 {
-    public function __construct($orders = null)
+    public function __construct($orders = [])
     {
-
         parent::__construct([
             'headers' => [
                 'ID',

@@ -7,7 +7,7 @@ const endpoints = {
  * This defines how JS code selects elements by ID
  */
 const selectors = {
-    grid: 'table'
+    table: 'table'
 }
 
 /**
@@ -42,9 +42,9 @@ function api(url, formData, success, fail) {
 /**
  * Table-related functionality
  */
-const grid = {
+const table = {
     getElement: function () {
-        return document.getElementsByClassName(selectors.grid)[0];
+        return document.getElementsByClassName(selectors.table)[0];
     },
     init: function () {
         if (this.getElement()) {
@@ -64,12 +64,12 @@ const grid = {
          * @returns {undefined}
          */
         load: function () {
-            console.log('Grid: Calling API to get data...');
+            console.log('Table: Calling API to get data...');
             api(endpoints.get, null, this.success, this.fail);
         },
         success: function (data) {
             Object.keys(data).forEach(i => {
-                grid.item.append(data[i]);
+                table.item.append(data[i]);
             });
         },
         fail: function (errors) {
@@ -115,8 +115,8 @@ const grid = {
          * @param {Object} data
          */
         append: function (data) {
-            console.log('Grid: Creating item in grid container from ', data);
-            grid.getElement().append(this.build(data));
+            console.log('Table: Creating item in table from ', data);
+            table.getElement().append(this.build(data));
         }
     }
 };
@@ -128,9 +128,9 @@ const grid = {
 const app = {
     init: function () {
 
-        console.log('Initializing grid...');
-        let success = grid.init();
-        console.log('Grid: Initialization: ' + (success ? 'PASS' : 'FAIL'));
+        console.log('Initializing table...');
+        let success = table.init();
+        console.log('Table: Initialization: ' + (success ? 'PASS' : 'FAIL'));
     }
 };
 

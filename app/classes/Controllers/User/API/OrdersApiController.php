@@ -14,7 +14,8 @@ class OrdersApiController extends UserController
     {
         $response = new Response();
 
-        $orders = App::$db->getRowsWhere('orders');
+        $user = App::$session->getUser();
+        $orders = App::$db->getRowsWhere('orders', ['email' => $user['email']]);
 
         foreach ($orders as $id => &$row) {
             $pizza = App::$db->getRowById('pizzas', $row['pizza_id']);
@@ -33,6 +34,7 @@ class OrdersApiController extends UserController
                 'timestamp' => $result
             ];
         }
+
 
         // Setting "what" to json-encode
         $response->setData($orders);

@@ -22,7 +22,7 @@ class OrdersController extends UserController
 
     public function index(): ?string
     {
-        $table = new OrderTable([]);
+        $table = new OrderTable();
         $this->page->setContent($table->render());
         return $this->page->render();
     }
