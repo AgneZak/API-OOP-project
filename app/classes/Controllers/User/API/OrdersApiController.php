@@ -35,7 +35,6 @@ class OrdersApiController extends UserController
             ];
         }
 
-
         // Setting "what" to json-encode
         $response->setData($orders);
 

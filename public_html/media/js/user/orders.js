@@ -60,7 +60,7 @@ const table = {
      */
     data: {
         /**
-         * Loads data and populates grid from API
+         * Loads data and populates table from API
          * @returns {undefined}
          */
         load: function () {
@@ -69,7 +69,7 @@ const table = {
         },
         success: function (data) {
             Object.keys(data).forEach(i => {
-                table.item.append(data[i]);
+                table.row.append(data[i]);
             });
         },
         fail: function (errors) {
@@ -77,45 +77,41 @@ const table = {
         }
     },
     /**
-     * Operations with items
+     * Operations with rows
      */
-    item: {
+    row: {
         /**
-         * Builds item element from data
+         * Builds row element from data
          *
          * @param {Object} data
          * @returns {Element}
          */
         build: function (data) {
-            const item = document.createElement('tr');
+            const row = document.createElement('tr');
 
             if (data.id == null) {
-                throw Error('JS can`t build the item, because API data doesn`t contain its ID. Check API controller!');
+                throw Error('JS can`t build the row, because API data doesn`t contain its ID. Check API controller!');
             }
 
-            item.setAttribute('data-id', data.id);
-            item.className = 'data-item';
+            row.setAttribute('data-id', data.id);
+            row.className = 'data-row';
 
             Object.keys(data).forEach(data_id => {
-                switch (data_id) {
-
-                    default:
-                        let td = document.createElement('td');
-                        td.innerHTML = data[data_id];
-                        td.className = data_id;
-                        item.append(td);
-                }
+                let td = document.createElement('td');
+                td.innerHTML = data[data_id];
+                td.className = data_id;
+                row.append(td);
             });
 
-            return item;
+            return row;
         },
         /**
-         * Appends item to grid from data
+         * Appends row to table from data
          *
          * @param {Object} data
          */
         append: function (data) {
-            console.log('Table: Creating item in table from ', data);
+            console.log('Table: Creating row in table from ', data);
             table.getElement().append(this.build(data));
         }
     }

@@ -11,21 +11,20 @@ class OrderBaseForm extends Form
     public function __construct($value = null)
     {
         parent::__construct([
-            'attr' => [
-                'method' => 'POST'
-            ],
             'fields' => [
-                'id' => [
-                    'type' => 'hidden',
-                    'value' => 'ORDER'
-                ],
-                'name' => [
-                    'type' => 'hidden',
-                    'value' => $value
-                ],
+                'status' => [
+                    'type' => 'select',
+                    'options' => [
+                        'active' => 'Active',
+                        'completed' => 'Completed',
+                        'cancelled' => 'Cancelled'
+                    ],
+                    'validators' => [
+                        'validate_select',
+                    ],
+                    'value' => $value,
+                ]
             ]
         ]);
     }
 }
-
-

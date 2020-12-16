@@ -202,66 +202,59 @@ const forms = {
             });
         }
         ,
-        flash: {
-            class
+        flash:
+            function (element, class_name) {
+                const prev = element.className;
 
-:
+                element.className += class_name;
+                setTimeout(function () {
+                    element.className = prev;
+                }, 1000);
+            },
+        /**
+         * Form-error related functionality
+         */
+        errors: {
+            /**
+             * Shows errors in form
+             * Each error index correlates with input name attribute
+             *
+             * @param {Element} form
+             * @param {Object} errors
+             */
+            show: function (form, errors) {
+                this.hide(form);
 
-function (element, class_name) {
-    const prev = element.className;
+                console.log('Form errors received', errors);
 
-    element.className += class_name;
-    setTimeout(function () {
-        element.className = prev;
-    }, 1000);
-}
-}
-,
-/**
- * Form-error related functionality
- */
-errors: {
-    /**
-     * Shows errors in form
-     * Each error index correlates with input name attribute
-     *
-     * @param {Element} form
-     * @param {Object} errors
-     */
-    show: function (form, errors) {
-        this.hide(form);
+                Object.keys(errors).forEach(function (error_id) {
+                    const field = form.querySelector('input[name="' + error_id + '"]');
+                    if (field) {
+                        const span = document.createElement("span");
+                        span.className = 'field-error';
+                        span.innerHTML = errors[error_id];
+                        field.parentNode.append(span);
 
-        console.log('Form errors received', errors);
-
-        Object.keys(errors).forEach(function (error_id) {
-            const field = form.querySelector('input[name="' + error_id + '"]');
-            if (field) {
-                const span = document.createElement("span");
-                span.className = 'field-error';
-                span.innerHTML = errors[error_id];
-                field.parentNode.append(span);
-
-                console.log('Form error in field: ' + error_id + ':' + errors[error_id]);
+                        console.log('Form error in field: ' + error_id + ':' + errors[error_id]);
+                    }
+                });
             }
-        });
-    }
-,
-    /**
-     * Hides (destroys) all errors in form
-     * @param {type} form
-     */
-    hide: function (form) {
-        const errors = form.querySelectorAll('.field-error');
-        if (errors) {
-            errors.forEach(node => {
-                node.remove();
-            });
+            ,
+            /**
+             * Hides (destroys) all errors in form
+             * @param {type} form
+             */
+            hide: function (form) {
+                const errors = form.querySelectorAll('.field-error');
+                if (errors) {
+                    errors.forEach(node => {
+                        node.remove();
+                    });
+                }
+            }
         }
     }
-}
-}
-}
-;
+};
 
 /**
  * Table-related functionality
