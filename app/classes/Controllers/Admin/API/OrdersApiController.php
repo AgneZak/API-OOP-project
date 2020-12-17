@@ -111,7 +111,7 @@ class OrdersApiController extends AdminController
      * @param $id
      * @return array
      */
-    private function buildRow($row, $id)
+    private function buildRow($row, $id): array
     {
         $pizza = App::$db->getRowById('pizzas', $row['pizza_id']);
 
