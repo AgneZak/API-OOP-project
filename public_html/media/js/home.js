@@ -6,7 +6,7 @@ const endpoints = {
     edit: 'api/pizza/edit',
     update: 'api/pizza/update',
     delete: 'api/pizza/delete',
-    createOrder: 'api/order/create'
+    order: 'api/order/create'
 };
 
 /**
@@ -436,7 +436,7 @@ const grid = {
                 alert(errors[0]);
             }
         },
-        createOrder: {
+        order: {
             init: function () {
                 if (grid.getElement()) {
                     grid.getElement().addEventListener('click', this.onClickListener);
@@ -456,7 +456,7 @@ const grid = {
                     console.log('Order button clicked on', item);
 
                     formData.append('id', item.getAttribute('data-id'));
-                    api(endpoints.createOrder, formData, grid.buttons.createOrder.success, grid.buttons.createOrder.fail);
+                    api(endpoints.order, formData, grid.buttons.order.success, grid.buttons.order.fail);
                 }
             },
             success: function (data) {
