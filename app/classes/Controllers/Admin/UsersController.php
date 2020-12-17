@@ -6,7 +6,6 @@ use App\Controllers\Base\AdminController;
 use App\Views\BasePage;
 use App\Views\Forms\Admin\User\UserUpdateForm;
 use App\Views\Tables\Admin\UsersTable;
-use Core\View;
 
 /**
  * Class AdminUsers
