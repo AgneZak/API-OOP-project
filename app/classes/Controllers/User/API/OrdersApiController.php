@@ -17,35 +17,70 @@ class OrdersApiController extends UserController
         $user = App::$session->getUser();
         $orders = App::$db->getRowsWhere('orders', ['email' => $user['email']]);
 
-        foreach ($orders as $id => &$row) {
-            $pizza = App::$db->getRowById('pizzas', $row['pizza_id']);
-
-            $timeStamp = date('Y-m-d H:i:s', $row['timestamp']);
-            $difference = abs(strtotime("now") - strtotime($timeStamp));
-            $days = floor($difference / (3600 * 24));
-            $hours = floor($difference / 3600);
-            $minutes = floor(($difference - ($hours * 3600)) / 60);
-            $result = "{$days}d {$hours}:{$minutes} H";
-
-            $row = [
-                'id' => $id,
-                'status' => $row['status'],
-                'name' => $pizza['name'],
-                'timestamp' => $result
-            ];
-        }
+        $rows = $this->buildRows($orders);
 
         // Setting "what" to json-encode
-        $response->setData($orders);
+        $response->setData($rows);
 
         // Returns json-encoded response
 
         return $response->toJson();
     }
 
+    /**
+     * Returns formatted time from timestamp given in row.
+     *
+     * @param $row
+     * @return string
+     */
+    private function timeFormat($row)
+    {
+        $timeStamp = date('Y-m-d H:i:s', $row['timestamp']);
+        $difference = abs(strtotime("now") - strtotime($timeStamp));
+        $days = floor($difference / (3600 * 24));
+        $hours = floor($difference / 3600);
+        $minutes = floor(($difference - ($hours * 3600)) / 60);
+        $seconds = floor($difference % 60);
+
+        if ($days) {
+            $hours = $hours - 24;
+            $result = "{$days}d {$hours}:{$minutes} H";
+        } elseif ($minutes) {
+            $result = "{$minutes} min";
+        } elseif ($hours) {
+            $result = "{$hours}:{$minutes} H";
+        } else {
+            $result = "{$seconds} seconds";
+        }
+
+        return $result;
+    }
+
+    /**
+     * Formats rows from given @param (in this case - orders data)
+     * Intended use is for setting data in json.
+     *
+     * @param $orders
+     * @return mixed
+     */
+    private function buildRows($orders)
+    {
+        foreach ($orders as $id => &$row) {
+            $pizza = App::$db->getRowById('pizzas', $row['pizza_id']);
+
+            $row = [
+                'id' => $id,
+                'status' => $row['status'],
+                'name' => $pizza['name'],
+                'timestamp' => $this->timeFormat($row)
+            ];
+        }
+
+        return $orders;
+    }
+
     public function create(): string
     {
-
         // This is a helper class to make sure
         // we use the same API json response structure
         $response = new Response();
@@ -59,6 +94,7 @@ class OrdersApiController extends UserController
             $response->setData([
                 'id' => $id
             ]);
+
             App::$db->insertRow('orders', [
                 'pizza_id' => $id,
                 'status' => 'active',
