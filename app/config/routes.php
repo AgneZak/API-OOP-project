@@ -32,3 +32,7 @@ Router::add('api_user_order_get', '/api/order/user/get', \App\Controllers\User\A
 Router::add('api_admin_order_get', '/api/order/admin/get', \App\Controllers\Admin\API\OrdersApiController::class);
 Router::add('api_order_edit', '/api/order/admin/edit', \App\Controllers\Admin\API\OrdersApiController::class, 'edit');
 Router::add('api_order_update', '/api/order/admin/update', \App\Controllers\Admin\API\OrdersApiController::class, 'update');
+
+Router::add('api_admin_users_get', '/api/admin/users/get', \App\Controllers\Admin\API\UsersApiController::class);
+Router::add('api_admin_users_edit', '/api/admin/users/edit', \App\Controllers\Admin\API\UsersApiController::class, 'edit');
+Router::add('api_admin_users_update', '/api/admin/users/update', \App\Controllers\Admin\API\UsersApiController::class, 'update');

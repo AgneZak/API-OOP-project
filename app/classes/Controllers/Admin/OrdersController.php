@@ -33,18 +33,6 @@ class OrdersController extends AdminController
 
     public function index()
     {
-        $rows = App::$db->getRowsWhere('orders');
-//
-//        if ($this->form->validate()) {
-//            $clean_inputs = $this->form->values();
-//
-//            foreach ($rows as $id => $row) {
-//                if ($clean_inputs['id'] == $id) {
-//                    $row['status'] = $clean_inputs['status'];
-//                    App::$db->updateRow('orders', $id, $row);
-//                }
-//            }
-//        }
         $forms = [
             'update' => (new OrderUpdateForm())->render()
         ];

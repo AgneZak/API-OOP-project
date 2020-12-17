@@ -5,16 +5,12 @@ namespace App\Views\Forms\Admin\User;
 
 use Core\Views\Form;
 
-class UserRoleForm extends Form
+class UserBaseForm extends Form
 {
-    public function __construct($value = null, $id = null)
+    public function __construct($value = null)
     {
         parent::__construct([
             'fields' => [
-                'row_id' => [
-                    'type' => 'hidden',
-                    'value' => $id
-                ],
                 'role' => [
                     'type' => 'select',
                     'options' => [
@@ -26,11 +22,6 @@ class UserRoleForm extends Form
                     ],
                     'value' => $value,
                 ]
-            ],
-            'buttons' => [
-                'submit' => [
-                    'title' => 'Set',
-                ],
             ]
         ]);
     }
