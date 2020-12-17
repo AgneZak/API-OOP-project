@@ -2,10 +2,10 @@
 
 namespace App\Controllers\Admin;
 
-use App\App;
 use App\Controllers\Base\AdminController;
 use App\Views\BasePage;
 use App\Views\Forms\Admin\User\UserUpdateForm;
+use App\Views\Tables\Admin\UsersTable;
 use Core\View;
 
 /**
@@ -33,16 +33,8 @@ class UsersController extends AdminController
             'update' => (new UserUpdateForm())->render()
         ];
 
-        $table = new View([
-            'headers' => [
-                'ID',
-                'Email',
-                'Role',
-                'Actions'
-            ],
-            'forms' => $forms ?? []
-        ]);
-        $this->page->setContent($table->render(ROOT . '/app/templates/content/table.tpl.php'));
+        $table = new UsersTable($forms);
+        $this->page->setContent($table->render());
         return $this->page->render();
     }
 }

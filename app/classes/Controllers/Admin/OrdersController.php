@@ -2,17 +2,13 @@
 
 namespace App\Controllers\Admin;
 
-use App\App;
 use App\Controllers\Base\AdminController;
 use App\Views\BasePage;
-use App\Views\Forms\Admin\Order\OrderStatusForm;
 use App\Views\Forms\Admin\Order\OrderUpdateForm;
-use App\Views\Tables\User\OrderTable;
-use Core\View;
+use App\Views\Tables\Admin\OrderTable;
 
 /**
  * Class AdminOrders
- * TODO Make an API approach of this shit
  *
  * @package App\Controllers\Admin
  * @author  Dainius Vaičiulis   <denncath@gmail.com>
@@ -37,16 +33,8 @@ class OrdersController extends AdminController
             'update' => (new OrderUpdateForm())->render()
         ];
 
-        $table = new View([
-            'headers' => [
-                'ID',
-                'Status',
-                'Pizza name',
-                'Time Ago'
-            ],
-            'forms' => $forms ?? []
-        ]);
-        $this->page->setContent($table->render(ROOT . '/app/templates/content/table.tpl.php'));
+        $table = new OrderTable($forms);
+        $this->page->setContent($table->render());
         return $this->page->render();
     }
 }

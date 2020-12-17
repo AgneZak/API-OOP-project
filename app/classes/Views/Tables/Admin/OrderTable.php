@@ -3,21 +3,21 @@
 
 namespace App\Views\Tables\Admin;
 
-
 use App\Views\Table;
 
-class UsersTable extends Table
+class OrderTable extends Table
 {
     public function __construct($forms)
     {
         parent::__construct([
             'headers' => [
                 'ID',
-                'Email',
-                'Role',
-                'Actions'
+                'Status',
+                'Pizza name',
+                'Time Ago'
             ],
             'forms' => $forms ?? []
         ]);
     }
+
 }
