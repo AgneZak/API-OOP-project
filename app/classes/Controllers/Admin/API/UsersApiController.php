@@ -25,6 +25,13 @@ class UsersApiController extends AdminController
         return $response->toJson();
     }
 
+    /**
+     * Formats rows from given @param (in this case - users data)
+     * Intended use is for setting data in json.
+     *
+     * @param $users
+     * @return mixed
+     */
     private function buildRows($users)
     {
         foreach ($users as $id => &$row) {
@@ -46,7 +53,15 @@ class UsersApiController extends AdminController
         return $users;
     }
 
-    private function buildRow($row, $id)
+    /**
+     * Formats row for json to be used in update method,
+     * so that the data would be updated in the same format.
+     *
+     * @param $row
+     * @param $id
+     * @return array
+     */
+    private function buildRow($row, $id): array
     {
         return $row = [
             'id' => $id,
