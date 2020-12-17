@@ -8,7 +8,7 @@ use Core\Views\Form;
 
 class OrderBaseForm extends Form
 {
-    public function __construct($value = null)
+    public function __construct()
     {
         parent::__construct([
             'fields' => [
@@ -21,8 +21,7 @@ class OrderBaseForm extends Form
                     ],
                     'validators' => [
                         'validate_select',
-                    ],
-                    'value' => $value,
+                    ]
                 ]
             ]
         ]);
