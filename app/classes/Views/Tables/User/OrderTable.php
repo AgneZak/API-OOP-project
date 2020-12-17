@@ -2,7 +2,6 @@
 
 namespace App\Views\Tables\User;
 
-use App\App;
 use Core\Views\Table;
 
 class OrderTable extends Table
