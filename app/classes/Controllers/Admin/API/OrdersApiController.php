@@ -26,7 +26,13 @@ class OrdersApiController extends AdminController
         return $response->toJson();
     }
 
-    private function timeStampResult($row)
+    /**
+     * Returns formatted time from timestamp given in row.
+     *
+     * @param $row
+     * @return string
+     */
+    private function timeFormat($row)
     {
         $timeStamp = date('Y-m-d H:i:s', $row['timestamp']);
         $difference = abs(strtotime("now") - strtotime($timeStamp));
@@ -49,6 +55,13 @@ class OrdersApiController extends AdminController
         return $result;
     }
 
+    /**
+     * Formats rows from given @param (in this case - orders data)
+     * Intended use is for setting data in json.
+     *
+     * @param $orders
+     * @return mixed
+     */
     private function buildRows($orders)
     {
         foreach ($orders as $id => &$row) {
@@ -58,7 +71,7 @@ class OrdersApiController extends AdminController
                 'id' => $id,
                 'status' => $row['status'],
                 'name' => $pizza['name'],
-                'timestamp' => $this->timeStampResult($row),
+                'timestamp' => $this->timeFormat($row),
                 'buttons' => [
                     'edit' => 'Edit'
                 ]
@@ -90,6 +103,14 @@ class OrdersApiController extends AdminController
         return $response->toJson();
     }
 
+    /**
+     * Formats row for json to be used in update method,
+     * so that the data would be updated in the same format.
+     *
+     * @param $row
+     * @param $id
+     * @return array
+     */
     private function buildRow($row, $id)
     {
         $pizza = App::$db->getRowById('pizzas', $row['pizza_id']);
@@ -98,7 +119,7 @@ class OrdersApiController extends AdminController
             'id' => $id,
             'status' => $row['status'],
             'name' => $pizza['name'],
-            'timestamp' => $this->timeStampResult($row),
+            'timestamp' => $this->timeFormat($row),
             'buttons' => [
                 'edit' => 'Edit'
             ]
@@ -107,7 +128,7 @@ class OrdersApiController extends AdminController
 
     /**
      * Updates order data
-     * and returns array from which JS generates grid item
+     * and returns array from which JS generates table row
      *
      * @return string
      */
